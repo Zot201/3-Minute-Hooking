@@ -1,4 +1,4 @@
 package io.github.zot201.asmhook;
 
-public @interface Testing {
+public @interface Receiver {
 }
