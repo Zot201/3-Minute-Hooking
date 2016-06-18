@@ -14,11 +14,11 @@ class HookTest {
 
   val itemRes = Set(dummy("Item"))
   val enumEnchantmentTypeRes = itemRes + dummy("EnumEnchantmentType")
-  val helloWorldRes = enumEnchantmentTypeRes + root("HelloWorld")
+  val hookExampleRes = enumEnchantmentTypeRes + root("HookExample")
 
   @Test def helloWorld(): Unit = {
     assertAboutJavaSources
-      .that(helloWorldRes)
+      .that(hookExampleRes)
       .processedWith(new HookProcessor)
       .compilesWithoutError()
   }

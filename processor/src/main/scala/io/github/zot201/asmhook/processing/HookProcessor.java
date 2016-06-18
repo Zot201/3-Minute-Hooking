@@ -2,6 +2,7 @@ package io.github.zot201.asmhook.processing;
 
 import com.google.auto.service.AutoService;
 import io.github.zot201.asmhook.Hook;
+import io.github.zot201.asmhook.Testing;
 import io.github.zot201.asmhook.processing.util.processing.ImprovedAbstractProcessor;
 import io.github.zot201.asmhook.processing.util.processing.SupportedAnnotations;
 
@@ -11,11 +12,12 @@ import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
 @AutoService(Processor.class)
-@SupportedAnnotations(Hook.class)
+@SupportedAnnotations({Hook.class, Testing.class})
 public class HookProcessor extends ImprovedAbstractProcessor {
 
   @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    System.out.println(roundEnv); // TODO
+    System.out.println(roundEnv.getElementsAnnotatedWith(Hook.class)); // TODO
+    System.out.println(roundEnv.getElementsAnnotatedWith(Testing.class)); // TODO
     return false;
   }
 
