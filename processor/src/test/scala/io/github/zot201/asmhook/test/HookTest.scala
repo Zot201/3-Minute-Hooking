@@ -19,11 +19,8 @@ import com.google.testing.compile.JavaFileObjects
 import io.github.zot201.asmhook.processing.HookProcessor
 import io.github.zot201.asmhook.test.example.EnumEnchantmentTypeExample
 import io.github.zot201.asmhook.test.util.Truths._
-import net.minecraft.enchantment.EnumEnchantmentType
-import net.minecraft.item.Item
 import org.junit.Test
 
-import scala.collection.JavaConversions._
 import scala.reflect.ClassTag
 
 class HookTest {
@@ -32,13 +29,9 @@ class HookTest {
   def ex[T](implicit tag: ClassTag[T]) =
     JavaFileObjects.forResource(s"${tag.runtimeClass.getName.replace('.', '/')}.java")
 
-  val itemRes = Set(ex[Item])
-  val enumEnchantmentTypeRes = itemRes + ex[EnumEnchantmentType]
-  val hookExampleRes = enumEnchantmentTypeRes + ex[EnumEnchantmentTypeExample]
-
-  @Test def helloWorld(): Unit = {
-    assertAboutJavaSources
-      .that(hookExampleRes)
+  @Test def enumEnchantmentType(): Unit = {
+    assertAboutJavaSource
+      .that(ex[EnumEnchantmentTypeExample])
       .processedWith(new HookProcessor)
       .compilesWithoutError()
   }
