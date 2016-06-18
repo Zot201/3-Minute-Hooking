@@ -13,7 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook;
+package io.github.zot201.asmhook.test.example;
 
-public @interface Return {
+import io.github.zot201.asmhook.OnReturn;
+import io.github.zot201.asmhook.Parameters;
+import io.github.zot201.asmhook.Receiver;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.item.Item;
+
+public class HookExample {
+
+  public void canEnchantItem(@OnReturn boolean canEnchant, @Receiver EnumEnchantmentType type, Item item) {
+    // stub
+  }
+
+  @Parameters(Item.class)
+  public void canEnchantItem(@OnReturn boolean canEnchant, @Receiver EnumEnchantmentType type) {
+    // stub
+  }
+
 }
