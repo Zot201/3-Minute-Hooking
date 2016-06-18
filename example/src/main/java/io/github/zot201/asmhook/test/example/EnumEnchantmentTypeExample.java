@@ -15,13 +15,14 @@
  */
 package io.github.zot201.asmhook.test.example;
 
+import io.github.zot201.asmhook.Name;
 import io.github.zot201.asmhook.OnReturn;
 import io.github.zot201.asmhook.Parameters;
 import io.github.zot201.asmhook.Receiver;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
 
-public class HookExample {
+public class EnumEnchantmentTypeExample {
 
   public void canEnchantItem(@OnReturn boolean canEnchant, @Receiver EnumEnchantmentType type, Item item) {
     // stub
@@ -30,6 +31,15 @@ public class HookExample {
   @Parameters(Item.class)
   public void canEnchantItem(@OnReturn boolean canEnchant, @Receiver EnumEnchantmentType type) {
     // stub
+  }
+
+  private boolean isMyEnchantmentType(EnumEnchantmentType type) {
+    return type.name().equals("MY_ENCHANTMENT_TYPE");
+  }
+
+  @Name("canEnchantItem")
+  public boolean myEnchantmentTypeImpl(@Receiver EnumEnchantmentType type) {
+    return isMyEnchantmentType(type);
   }
 
 }

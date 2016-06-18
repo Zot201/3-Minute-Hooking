@@ -17,7 +17,7 @@ package io.github.zot201.asmhook.test
 
 import com.google.testing.compile.JavaFileObjects
 import io.github.zot201.asmhook.processing.HookProcessor
-import io.github.zot201.asmhook.test.example.HookExample
+import io.github.zot201.asmhook.test.example.EnumEnchantmentTypeExample
 import io.github.zot201.asmhook.test.util.Truths._
 import net.minecraft.enchantment.EnumEnchantmentType
 import net.minecraft.item.Item
@@ -34,7 +34,7 @@ class HookTest {
 
   val itemRes = Set(ex[Item])
   val enumEnchantmentTypeRes = itemRes + ex[EnumEnchantmentType]
-  val hookExampleRes = enumEnchantmentTypeRes + ex[HookExample]
+  val hookExampleRes = enumEnchantmentTypeRes + ex[EnumEnchantmentTypeExample]
 
   @Test def helloWorld(): Unit = {
     assertAboutJavaSources

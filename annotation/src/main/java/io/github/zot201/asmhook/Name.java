@@ -15,8 +15,8 @@
  */
 package io.github.zot201.asmhook;
 
-public @interface Load {
+public @interface Name {
 
-  int value();
+  String value();
 
 }
