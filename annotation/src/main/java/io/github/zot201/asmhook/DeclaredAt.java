@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.test.example;
+package io.github.zot201.asmhook;
 
-import io.github.zot201.asmhook.DoFirst;
-import io.github.zot201.asmhook.Receiver;
-import net.minecraft.enchantment.EnumEnchantmentType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+public @interface DeclaredAt {
 
-public class EnumEnchantmentTypeExample {
-
-  @DoFirst
-  public boolean canEnchantItem(@Receiver EnumEnchantmentType type, Item i) {
-    return type.name().equals("MY_ENCH_TYPE") && (i instanceof ItemSword || i instanceof ItemTool);
-  }
+  Class<?>[] value();
 
 }

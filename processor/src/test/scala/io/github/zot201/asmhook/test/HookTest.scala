@@ -17,7 +17,7 @@ package io.github.zot201.asmhook.test
 
 import com.google.testing.compile.JavaFileObjects
 import io.github.zot201.asmhook.processing.HookProcessor
-import io.github.zot201.asmhook.test.example.EnumEnchantmentTypeExample
+import io.github.zot201.asmhook.test.example.HookExample
 import io.github.zot201.asmhook.test.util.Truths._
 import org.junit.Test
 
@@ -29,9 +29,9 @@ class HookTest {
   def ex[T](implicit tag: ClassTag[T]) =
     JavaFileObjects.forResource(s"${tag.runtimeClass.getName.replace('.', '/')}.java")
 
-  @Test def enumEnchantmentType(): Unit = {
+  @Test def noError(): Unit = {
     assertAboutJavaSource
-      .that(ex[EnumEnchantmentTypeExample])
+      .that(ex[HookExample])
       .processedWith(new HookProcessor)
       .compilesWithoutError()
   }

@@ -15,5 +15,5 @@
  */
 package io.github.zot201.asmhook;
 
-public @interface DoFirst {
+public @interface Emit {
 }

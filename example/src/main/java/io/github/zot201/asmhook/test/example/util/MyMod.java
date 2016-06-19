@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook;
+package io.github.zot201.asmhook.test.example.util;
 
-public @interface Name {
+import net.minecraft.enchantment.EnumEnchantmentType;
 
-  String value();
+public class MyMod {
+
+  public static final EnumEnchantmentType MY_ENCH_TYPE = EnumEnchantmentType.ALL; // stub
 
 }

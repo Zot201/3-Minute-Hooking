@@ -15,5 +15,15 @@
  */
 package io.github.zot201.asmhook;
 
-public @interface OnReturn {
+public @interface ReturnInAdvance {
+
+  Condition value();
+
+  enum Condition {
+    IF_TRUE,
+    IF_FALSE,
+    IF_NOT_NULL,
+    IF_NULL
+  }
+
 }
