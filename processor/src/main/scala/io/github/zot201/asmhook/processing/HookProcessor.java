@@ -16,7 +16,7 @@
 package io.github.zot201.asmhook.processing;
 
 import com.google.auto.service.AutoService;
-import io.github.zot201.asmhook.Receiver;
+import io.github.zot201.asmhook.parameter.Receiver;
 import io.github.zot201.asmhook.processing.util.processing.ImprovedAbstractProcessor;
 import io.github.zot201.asmhook.processing.util.processing.SupportedAnnotations;
 

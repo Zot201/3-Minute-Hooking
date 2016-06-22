@@ -16,7 +16,16 @@
 package io.github.zot201.asmhook.test.example;
 
 import io.github.zot201.asmhook.*;
-import io.github.zot201.asmhook.ReturnInAdvance.Condition;
+import io.github.zot201.asmhook.instruction.Instanceof;
+import io.github.zot201.asmhook.instruction.Return;
+import io.github.zot201.asmhook.parameter.Emit;
+import io.github.zot201.asmhook.parameter.LoadArg;
+import io.github.zot201.asmhook.parameter.LoadThis;
+import io.github.zot201.asmhook.parameter.Receiver;
+import io.github.zot201.asmhook.strategy.After;
+import io.github.zot201.asmhook.strategy.Before;
+import io.github.zot201.asmhook.strategy.InAdvance;
+import io.github.zot201.asmhook.strategy.Condition;
 import io.github.zot201.asmhook.test.example.util.MyCustomArmor;
 import io.github.zot201.asmhook.test.example.util.MyMod;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -27,19 +36,28 @@ import net.minecraft.item.ItemTool;
 
 public class HookExample {
 
-  @ReturnInAdvance(Condition.IF_TRUE)
-  public boolean canEnchantItem(@Receiver EnumEnchantmentType type, Item i) {
+  /** Define MY_ENCH_TYPE to match ItemSword or ItemTool */
+  @InAdvance(end = Condition.IF_TRUE)
+  boolean canEnchantItem(@Receiver EnumEnchantmentType type, Item i) {
     return type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
   }
 
+  /** An alternative to the above using {@code @Before} */
+  @Before @Return
+  boolean canEnchantItem(boolean canEnchant, @LoadThis EnumEnchantmentType type, @LoadArg Item i) {
+    return canEnchant || type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
+  }
+
+  /** Try {@code instanceof MyCustomArmor} whenever {@code instanceof ItemArmor} gives false */
   @DeclaredAt(EnumEnchantmentType.class)
-  @OnInstanceof(ItemArmor.class)
-  public boolean canEnchantItem(@Emit boolean isItemArmor, Object i) {
+  @After @Instanceof(ItemArmor.class)
+  boolean canEnchantItem(@Emit boolean isItemArmor, Object i) {
     return isItemArmor || i instanceof MyCustomArmor;
   }
 
+  /** Keep reference to the last candidate in canEnchantItem calls */
   @DeclaredAt(EnumEnchantmentType.class)
   @InAdvance
-  public final ThreadLocal<Item> canEnchantItem = new ThreadLocal<>();
+  final ThreadLocal<Item> canEnchantItem = new ThreadLocal<>();
 
 }

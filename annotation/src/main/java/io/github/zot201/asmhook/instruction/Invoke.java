@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook;
+package io.github.zot201.asmhook.instruction;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -21,9 +21,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD})
-public @interface DeclaredAt {
+@Target(ElementType.METHOD)
+public @interface Invoke {
 
-  Class<?>[] value();
+  String value();
+
+  Class<?> receiver() default Object.class;
+
+  // TODO: Consider signature
 
 }

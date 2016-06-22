@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook;
+package io.github.zot201.asmhook.parameter;
 
-public @interface ReturnInAdvance {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-  Condition value();
-
-  enum Condition {
-    IF_TRUE,
-    IF_FALSE,
-    IF_NOT_NULL,
-    IF_NULL
-  }
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.PARAMETER)
+public @interface Receiver {
 }
