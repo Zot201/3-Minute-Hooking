@@ -15,17 +15,17 @@
  */
 package io.github.zot201.asmhook.test.example;
 
-import io.github.zot201.asmhook.*;
+import io.github.zot201.asmhook.DeclaredAt;
 import io.github.zot201.asmhook.instruction.Instanceof;
 import io.github.zot201.asmhook.instruction.Return;
 import io.github.zot201.asmhook.parameter.Emit;
 import io.github.zot201.asmhook.parameter.LoadArg;
-import io.github.zot201.asmhook.parameter.LoadThis;
+import io.github.zot201.asmhook.parameter.LoadSelf;
 import io.github.zot201.asmhook.parameter.Receiver;
 import io.github.zot201.asmhook.strategy.After;
 import io.github.zot201.asmhook.strategy.Before;
-import io.github.zot201.asmhook.strategy.InAdvance;
 import io.github.zot201.asmhook.strategy.Condition;
+import io.github.zot201.asmhook.strategy.InAdvance;
 import io.github.zot201.asmhook.test.example.util.MyCustomArmor;
 import io.github.zot201.asmhook.test.example.util.MyMod;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -44,7 +44,7 @@ public class HookExample {
 
   /** An alternative to the above using {@code @Before} */
   @Before @Return
-  boolean canEnchantItem(boolean canEnchant, @LoadThis EnumEnchantmentType type, @LoadArg Item i) {
+  boolean canEnchantItem(boolean canEnchant, @LoadSelf EnumEnchantmentType type, @LoadArg Item i) {
     return canEnchant || type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
   }
 
