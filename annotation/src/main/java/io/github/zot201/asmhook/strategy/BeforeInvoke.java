@@ -21,6 +21,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD, ElementType.FIELD})
-public @interface After {
+@Target(ElementType.METHOD)
+public @interface BeforeInvoke {
+
+  String value();
+
+  Class<?> receiver() default Object.class;
+
+  // TODO: Consider signature
+
 }

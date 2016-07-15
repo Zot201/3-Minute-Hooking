@@ -16,14 +16,12 @@
 package io.github.zot201.asmhook.test.example;
 
 import io.github.zot201.asmhook.DeclaredAt;
-import io.github.zot201.asmhook.instruction.Instanceof;
-import io.github.zot201.asmhook.instruction.Return;
+import io.github.zot201.asmhook.strategy.AfterInstanceof;
+import io.github.zot201.asmhook.strategy.BeforeReturn;
 import io.github.zot201.asmhook.parameter.Emit;
 import io.github.zot201.asmhook.parameter.LoadArg;
 import io.github.zot201.asmhook.parameter.LoadSelf;
 import io.github.zot201.asmhook.parameter.Receiver;
-import io.github.zot201.asmhook.strategy.After;
-import io.github.zot201.asmhook.strategy.Before;
 import io.github.zot201.asmhook.strategy.Condition;
 import io.github.zot201.asmhook.strategy.InAdvance;
 import io.github.zot201.asmhook.test.example.util.MyCustomArmor;
@@ -42,22 +40,22 @@ public class HookExample {
     return type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
   }
 
-  /** An alternative to the above using {@code @Before} */
-  @Before @Return
+  /** An alternative to the above using {@code @BeforeReturn} */
+  @BeforeReturn
   boolean canEnchantItem(boolean canEnchant, @LoadSelf EnumEnchantmentType type, @LoadArg Item i) {
     return canEnchant || type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
   }
 
   /** Try {@code instanceof MyCustomArmor} whenever {@code instanceof ItemArmor} gives false */
+  @AfterInstanceof(ItemArmor.class)
   @DeclaredAt(EnumEnchantmentType.class)
-  @After @Instanceof(ItemArmor.class)
   boolean canEnchantItem(@Emit boolean isItemArmor, Object i) {
     return isItemArmor || i instanceof MyCustomArmor;
   }
 
   /** Keep reference to the last candidate in canEnchantItem calls */
-  @DeclaredAt(EnumEnchantmentType.class)
   @InAdvance
+  @DeclaredAt(EnumEnchantmentType.class)
   final ThreadLocal<Item> canEnchantItem = new ThreadLocal<>();
 
 }
