@@ -16,21 +16,38 @@
 package io.github.zot201.asmhook.processing;
 
 import com.google.auto.service.AutoService;
-import io.github.zot201.asmhook.parameter.Receiver;
+import io.github.zot201.asmhook.*;
+import io.github.zot201.asmhook.parameter.*;
 import io.github.zot201.asmhook.processing.util.processing.ImprovedAbstractProcessor;
 import io.github.zot201.asmhook.processing.util.processing.SupportedAnnotations;
 
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
 @AutoService(Processor.class)
-@SupportedAnnotations({Receiver.class})
+@SupportedAnnotations({HookInstance.class, Name.class, ParameterTypes.class, DeclaredAt.class,
+    InAdvance.class, BeforeReturn.class, BeforeInvoke.class, AfterInstanceof.class,
+    Receiver.class, Arg.class, Emit.class, LoadSelf.class, LoadArg.class})
 public class HookProcessor extends ImprovedAbstractProcessor {
 
   @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    System.out.println(roundEnv); // TODO
+    Set<? extends Element> hooks = roundEnv.getElementsAnnotatedWith(HookInstance.class);
+    ProcessingEnvironment env = processingEnv;
+    // STUB
+
+    for (Element e : hooks) {
+      e = e.getEnclosingElement();
+
+      if (e instanceof TypeElement) {
+        System.out.println(e);
+        System.out.println(((TypeElement) e).getSuperclass());
+      }
+    }
+
     return false;
   }
 
