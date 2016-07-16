@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.strategy;
+package io.github.zot201.asmhook;
 
-public enum Condition {
-  NONE,
-  IF_TRUE,
-  IF_FALSE,
-  IF_NOT_NULL,
-  IF_NULL
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
+@Target({ElementType.METHOD, ElementType.FIELD})
+public @interface HookInstance {
 }

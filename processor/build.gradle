@@ -11,7 +11,7 @@ sourceSets.with {
 
 dependencies {
   compile project(':annotation')
-  compile 'org.scala-lang:scala-library:2.12.0-M4'
+  compile 'org.scala-lang:scala-library:2.12.0-M5'
   compile 'com.google.guava:guava:19.0'
   compileOnly 'com.google.auto.service:auto-service:1.0-rc2'
   apt 'com.google.auto.service:auto-service:1.0-rc2'

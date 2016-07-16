@@ -15,15 +15,11 @@
  */
 package io.github.zot201.asmhook.test.example;
 
-import io.github.zot201.asmhook.DeclaredAt;
-import io.github.zot201.asmhook.strategy.AfterInstanceof;
-import io.github.zot201.asmhook.strategy.BeforeReturn;
+import io.github.zot201.asmhook.*;
 import io.github.zot201.asmhook.parameter.Emit;
 import io.github.zot201.asmhook.parameter.LoadArg;
 import io.github.zot201.asmhook.parameter.LoadSelf;
 import io.github.zot201.asmhook.parameter.Receiver;
-import io.github.zot201.asmhook.strategy.Condition;
-import io.github.zot201.asmhook.strategy.InAdvance;
 import io.github.zot201.asmhook.test.example.util.MyCustomArmor;
 import io.github.zot201.asmhook.test.example.util.MyMod;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -33,6 +29,9 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 
 public class HookExample {
+
+  /** Declare a static reference for hooks */
+  @HookInstance static final HookExample INSTANCE = new HookExample();
 
   /** Define MY_ENCH_TYPE to match ItemSword or ItemTool */
   @InAdvance(end = Condition.IF_TRUE)
