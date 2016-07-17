@@ -17,6 +17,8 @@ package io.github.zot201.asmhook.processing
 
 import java.lang.annotation.Annotation
 import javax.annotation.processing.{ProcessingEnvironment, RoundEnvironment}
+import javax.lang.model.`type`.TypeMirror
+import javax.lang.model.element.TypeElement
 
 import scala.reflect.ClassTag
 
@@ -28,5 +30,8 @@ class RoundCtx(
 
   def annotatedElements[T <: Annotation](implicit tag: ClassTag[T]) =
     roundEnv.getElementsAnnotatedWith(tag.runtimeClass.asInstanceOf[Class[T]])
+
+  def getElement(mirror: TypeMirror) =
+    processingEnv.getTypeUtils.asElement(mirror).asInstanceOf[TypeElement] // TODO: Check if this casting safe
 
 }

@@ -15,9 +15,9 @@
  */
 package io.github.zot201.asmhook.processing.op
 
-import javax.lang.model.element.{Modifier, TypeElement}
+import javax.lang.model.element.{ExecutableElement, Modifier, TypeElement, VariableElement}
 
-import com.squareup.javapoet.{ClassName, JavaFile, TypeSpec}
+import com.squareup.javapoet.{ClassName, JavaFile, MethodSpec, TypeSpec}
 import io.github.zot201.asmhook.HookInstance
 import io.github.zot201.asmhook.processing.RoundCtx
 
@@ -26,23 +26,44 @@ import scala.collection.JavaConverters._
 object ProcessHookInstance extends Proc {
 
   override def apply(ctx: RoundCtx): Unit = {
-    val hooks = ctx.annotatedElements[HookInstance]
+    val hookProviders = ctx.annotatedElements[HookInstance]
 
-    if (!hooks.isEmpty) {
+    if (!hookProviders.isEmpty) {
       ctx.processed = true
 
-      for (h <- hooks.asScala) h.getEnclosingElement match {
-        case enc: TypeElement =>
-          val name = ClassName.get(enc).peerClass(enc.getSimpleName + "Handler")
+      for (h <- hookProviders.asScala) {
+        require(h.getModifiers.contains(Modifier.STATIC))
 
-          //MethodSpec.methodBuilder()
+        val hookInfo = h match {
+          case _: VariableElement =>
+            (h.asType(), h.getSimpleName)
+          case e: ExecutableElement =>
+            require(!h.getSimpleName.contentEquals("<init>"))
+            (e.getReturnType, s"${h.getSimpleName}()")
+          case _ =>
+            throw new IllegalArgumentException(h.toString)
+        }
 
-          val typeSpec = TypeSpec.classBuilder(name)
-            .addModifiers(Modifier.PUBLIC)
-            .build()
+        h.getEnclosingElement match {
+          case container: TypeElement =>
+            val hookType = ctx.getElement(hookInfo._1)
+            val weaverName = ClassName.get(
+              ClassName.get(container).packageName,
+              s"${hookType.getSimpleName}Weaver")
 
-          val javaFile = JavaFile.builder(name.packageName, typeSpec).build()
-          javaFile.writeTo(System.out)
+            val weaverSpec = TypeSpec.classBuilder(weaverName)
+              .addModifiers(Modifier.PUBLIC)
+              .addMethod(MethodSpec.methodBuilder("delegate")
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                .returns(ClassName.get(hookType))
+                .addStatement("return $T.$L", hookType, hookInfo._2)
+                .build())
+              .build()
+
+            JavaFile.builder(weaverName.packageName, weaverSpec)
+              .build()
+              .writeTo(System.out)
+        }
       }
     }
   }
