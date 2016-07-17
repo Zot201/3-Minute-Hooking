@@ -15,8 +15,13 @@
  */
 package io.github.zot201.asmhook.processing.op
 
+import javax.lang.model.element.{Modifier, TypeElement}
+
+import com.squareup.javapoet.{ClassName, JavaFile, TypeSpec}
 import io.github.zot201.asmhook.HookInstance
 import io.github.zot201.asmhook.processing.RoundCtx
+
+import scala.collection.JavaConverters._
 
 object ProcessHookInstance extends Proc {
 
@@ -26,9 +31,19 @@ object ProcessHookInstance extends Proc {
     if (!hooks.isEmpty) {
       ctx.processed = true
 
+      for (h <- hooks.asScala) h.getEnclosingElement match {
+        case enc: TypeElement =>
+          val name = ClassName.get(enc).peerClass(enc.getSimpleName + "Handler")
 
+          //MethodSpec.methodBuilder()
 
+          val typeSpec = TypeSpec.classBuilder(name)
+            .addModifiers(Modifier.PUBLIC)
+            .build()
 
+          val javaFile = JavaFile.builder(name.packageName, typeSpec).build()
+          javaFile.writeTo(System.out)
+      }
     }
   }
 
