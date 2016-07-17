@@ -21,10 +21,8 @@ import io.github.zot201.asmhook.parameter.*;
 import io.github.zot201.asmhook.processing.util.processing.ImprovedAbstractProcessor;
 import io.github.zot201.asmhook.processing.util.processing.SupportedAnnotations;
 
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
@@ -35,20 +33,9 @@ import java.util.Set;
 public class HookProcessor extends ImprovedAbstractProcessor {
 
   @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    Set<? extends Element> hooks = roundEnv.getElementsAnnotatedWith(HookInstance.class);
-    ProcessingEnvironment env = processingEnv;
-    // STUB
-
-    for (Element e : hooks) {
-      e = e.getEnclosingElement();
-
-      if (e instanceof TypeElement) {
-        System.out.println(e);
-        System.out.println(((TypeElement) e).getSuperclass());
-      }
-    }
-
-    return false;
+    RoundCtx ctx = new RoundCtx(roundEnv, processingEnv);
+    io.github.zot201.asmhook.processing.op.package$.MODULE$.processHookInstance().apply(ctx);
+    return ctx.processed();
   }
 
 }

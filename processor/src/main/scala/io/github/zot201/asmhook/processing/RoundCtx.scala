@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook;
+package io.github.zot201.asmhook.processing
 
-@HookInstance
-public enum Condition {
-  NONE,
-  IF_TRUE,
-  IF_FALSE,
-  IF_NOT_NULL,
-  IF_NULL
+import javax.annotation.processing.{ProcessingEnvironment, RoundEnvironment}
+
+class RoundCtx(
+  val roundEnv: RoundEnvironment,
+  val processingEnv: ProcessingEnvironment) {
+
+  var processed = false
+
 }
