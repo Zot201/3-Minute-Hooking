@@ -13,20 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.processing
+package io.github.zot201.asmhook.processing.op
 
-import java.lang.annotation.Annotation
-import javax.annotation.processing.{ProcessingEnvironment, RoundEnvironment}
+import io.github.zot201.asmhook.processing.RoundCtx
 
-import scala.reflect.ClassTag
+trait Proc extends (RoundCtx => Unit) {
 
-class RoundCtx(
-  val roundEnv: RoundEnvironment,
-  val processingEnv: ProcessingEnvironment) {
-
-  var processed = false
-
-  def annotatedElements[T <: Annotation](implicit tag: ClassTag[T]) =
-    roundEnv.getElementsAnnotatedWith(tag.runtimeClass.asInstanceOf[Class[T]])
+  override def apply(ctx: RoundCtx): Unit
 
 }

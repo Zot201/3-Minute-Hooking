@@ -13,14 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.processing
+package io.github.zot201.asmhook.processing.op
 
-package object op {
+import io.github.zot201.asmhook.HookInstance
+import io.github.zot201.asmhook.processing.RoundCtx
 
-  type Proc = (RoundCtx => Unit)
+object ProcessHookInstance extends Proc {
 
-  val processHookInstance: Proc = ctx => {
+  override def apply(ctx: RoundCtx): Unit = {
+    val hooks = ctx.annotatedElements[HookInstance]
 
+    if (!hooks.isEmpty) {
+      ctx.processed = true
+
+
+
+
+    }
   }
 
 }

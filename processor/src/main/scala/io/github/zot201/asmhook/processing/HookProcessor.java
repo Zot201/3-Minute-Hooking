@@ -18,6 +18,7 @@ package io.github.zot201.asmhook.processing;
 import com.google.auto.service.AutoService;
 import io.github.zot201.asmhook.*;
 import io.github.zot201.asmhook.parameter.*;
+import io.github.zot201.asmhook.processing.op.ProcessHookInstance;
 import io.github.zot201.asmhook.processing.util.processing.ImprovedAbstractProcessor;
 import io.github.zot201.asmhook.processing.util.processing.SupportedAnnotations;
 
@@ -34,7 +35,7 @@ public class HookProcessor extends ImprovedAbstractProcessor {
 
   @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     RoundCtx ctx = new RoundCtx(roundEnv, processingEnv);
-    io.github.zot201.asmhook.processing.op.package$.MODULE$.processHookInstance().apply(ctx);
+    ProcessHookInstance.apply(ctx);
     return ctx.processed();
   }
 
