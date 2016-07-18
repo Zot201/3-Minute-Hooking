@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.processing.util.processing;
+package io.github.zot201.asmhook.annotation;
 
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface SupportedAnnotations {
+@Target({ElementType.METHOD, ElementType.FIELD})
+public @interface ParameterTypes {
 
-  Class[] value();
+  Class<?>[] value();
 
 }

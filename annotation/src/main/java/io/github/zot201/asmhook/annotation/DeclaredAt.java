@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.parameter;
+package io.github.zot201.asmhook.annotation;
 
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
-public @interface Arg {
+@Target({ElementType.METHOD, ElementType.FIELD})
+public @interface DeclaredAt {
 
-  int value();
+  Class<?>[] value();
 
 }

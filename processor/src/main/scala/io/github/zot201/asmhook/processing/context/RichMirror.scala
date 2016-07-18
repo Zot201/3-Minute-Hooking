@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook;
+package io.github.zot201.asmhook.processing.context
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Target;
+import javax.lang.model.`type`.TypeMirror
+import javax.lang.model.element.TypeElement
 
-@Target({ElementType.METHOD, ElementType.FIELD})
-public @interface InAdvance {
-
-  Condition end() default Condition.NONE;
-
+class RichMirror(val m: TypeMirror) extends AnyVal {
+  def toElement(implicit ctx: RoundCtx) =
+    ctx.processingEnv.getTypeUtils.asElement(m).asInstanceOf[TypeElement] // TODO: Check if this casting safe
 }

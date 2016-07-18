@@ -13,25 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.processing
+package io.github.zot201.asmhook.processing.context
 
 import java.lang.annotation.Annotation
 import javax.annotation.processing.{ProcessingEnvironment, RoundEnvironment}
-import javax.lang.model.`type`.TypeMirror
+import javax.lang.model.`type`.NoType
 import javax.lang.model.element.TypeElement
 
+import scala.annotation.tailrec
+import scala.collection.mutable
 import scala.reflect.ClassTag
 
 class RoundCtx(
   val roundEnv: RoundEnvironment,
   val processingEnv: ProcessingEnvironment) {
+  implicit private val self = this
+  val delegates = mutable.Set.empty[TypeElement]
 
-  var processed = false
+  @tailrec final def addDelegateTree(t: TypeElement): Unit = {
+    delegates += t
+    t.getSuperclass match {
+      case _: NoType =>
+      case p: Any =>
+        addDelegateTree(p.toElement)
+    }
+  }
 
   def annotatedElements[T <: Annotation](implicit tag: ClassTag[T]) =
     roundEnv.getElementsAnnotatedWith(tag.runtimeClass.asInstanceOf[Class[T]])
-
-  def getElement(mirror: TypeMirror) =
-    processingEnv.getTypeUtils.asElement(mirror).asInstanceOf[TypeElement] // TODO: Check if this casting safe
-
 }

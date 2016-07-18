@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.parameter;
+package io.github.zot201.asmhook.annotation;
 
 import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.PARAMETER)
-public @interface Receiver {
+@Target(ElementType.METHOD)
+public @interface BeforeInvoke {
+
+  String value();
+
+  Class<?> receiver() default Object.class;
+
+  // TODO: Consider signature
+
 }

@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.processing.op
+package io.github.zot201.asmhook.annotation;
 
-import io.github.zot201.asmhook.processing.RoundCtx
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 
-trait Proc extends (RoundCtx => Unit) {
-
-  override def apply(ctx: RoundCtx): Unit
-
+@Target(ElementType.METHOD)
+public @interface BeforeReturn {
 }

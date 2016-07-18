@@ -15,11 +15,11 @@
  */
 package io.github.zot201.asmhook.test.example;
 
-import io.github.zot201.asmhook.*;
-import io.github.zot201.asmhook.parameter.Emit;
-import io.github.zot201.asmhook.parameter.LoadArg;
-import io.github.zot201.asmhook.parameter.LoadSelf;
-import io.github.zot201.asmhook.parameter.Receiver;
+import io.github.zot201.asmhook.annotation.*;
+import io.github.zot201.asmhook.annotation.parameter.Emit;
+import io.github.zot201.asmhook.annotation.parameter.LoadArg;
+import io.github.zot201.asmhook.annotation.parameter.LoadSelf;
+import io.github.zot201.asmhook.annotation.parameter.Receiver;
 import io.github.zot201.asmhook.test.example.util.MyCustomArmor;
 import io.github.zot201.asmhook.test.example.util.MyMod;
 import net.minecraft.enchantment.EnumEnchantmentType;

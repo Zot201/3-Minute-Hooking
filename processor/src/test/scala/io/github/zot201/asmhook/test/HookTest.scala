@@ -24,7 +24,6 @@ import org.junit.Test
 import scala.reflect.ClassTag
 
 class HookTest {
-
   /** Get JavaFileObject of the corresponding ClassTag from the 'example' project */
   def ex[T](implicit tag: ClassTag[T]) =
     JavaFileObjects.forResource(s"${tag.runtimeClass.getName.replace('.', '/')}.java")
@@ -35,5 +34,4 @@ class HookTest {
       .processedWith(new HookProcessor)
       .compilesWithoutError()
   }
-
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.zot201.asmhook.processing.util.processing
+package io.github.zot201.asmhook.util.processing
 
 import java.util
 import javax.annotation.processing.AbstractProcessor
@@ -21,7 +21,6 @@ import javax.annotation.processing.AbstractProcessor
 import scala.collection.JavaConverters._
 
 abstract class ImprovedAbstractProcessor extends AbstractProcessor {
-
   override def getSupportedAnnotationTypes: util.Set[String] = {
     val supported = getClass.getAnnotation(classOf[SupportedAnnotations])
 
@@ -35,5 +34,4 @@ abstract class ImprovedAbstractProcessor extends AbstractProcessor {
       super.getSupportedAnnotationTypes
     }
   }
-
 }
