@@ -16,7 +16,7 @@
 package io.github.zot201.asmhook.test
 
 import com.google.testing.compile.JavaFileObjects
-import io.github.zot201.asmhook.processing.HookProcessor
+import io.github.zot201.asmhook.processing.AsmHookProcessor
 import io.github.zot201.asmhook.test.example.HookExample
 import io.github.zot201.asmhook.test.util.Truths._
 import org.junit.Test
@@ -31,7 +31,7 @@ class HookTest {
   @Test def noError(): Unit = {
     assertAboutJavaSource
       .that(ex[HookExample])
-      .processedWith(new HookProcessor)
+      .processedWith(new AsmHookProcessor)
       .compilesWithoutError()
   }
 }

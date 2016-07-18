@@ -15,7 +15,7 @@
  */
 package io.github.zot201.asmhook.processing.context
 
-import java.lang.annotation.Annotation
+import java.lang.annotation.{Annotation, ElementType, Target}
 import javax.annotation.processing.{ProcessingEnvironment, RoundEnvironment}
 import javax.lang.model.`type`.NoType
 import javax.lang.model.element.TypeElement
@@ -24,17 +24,21 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.reflect.ClassTag
 
-class RoundCtx(
+class RoundContext(
+  val annotations: Set[TypeElement],
   val roundEnv: RoundEnvironment,
   val processingEnv: ProcessingEnvironment) {
   implicit private val self = this
   val delegates = mutable.Set.empty[TypeElement]
 
+  def methodAnnotations = annotations.filter(
+    _.getAnnotation(classOf[Target]).value.exists(_ == ElementType.METHOD))
+
   @tailrec final def addDelegateTree(t: TypeElement): Unit = {
     delegates += t
     t.getSuperclass match {
       case _: NoType =>
-      case p: Any =>
+      case p =>
         addDelegateTree(p.toElement)
     }
   }

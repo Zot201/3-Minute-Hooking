@@ -19,6 +19,6 @@ import javax.lang.model.`type`.TypeMirror
 import javax.lang.model.element.TypeElement
 
 class RichMirror(val m: TypeMirror) extends AnyVal {
-  def toElement(implicit ctx: RoundCtx) =
+  def toElement(implicit ctx: RoundContext) =
     ctx.processingEnv.getTypeUtils.asElement(m).asInstanceOf[TypeElement] // TODO: Check if this casting safe
 }

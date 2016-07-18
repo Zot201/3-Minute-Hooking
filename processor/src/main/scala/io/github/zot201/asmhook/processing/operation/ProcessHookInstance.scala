@@ -17,13 +17,13 @@ package io.github.zot201.asmhook.processing.operation
 
 import javax.lang.model.element.{ExecutableElement, Modifier, TypeElement, VariableElement}
 
-import com.squareup.javapoet.{ClassName, JavaFile, TypeSpec}
+import com.squareup.javapoet.{JavaFile, TypeSpec}
 import io.github.zot201.asmhook.annotation.HookInstance
-import io.github.zot201.asmhook.processing.context.RoundCtx
+import io.github.zot201.asmhook.processing.context.RoundContext
 
 import scala.collection.JavaConverters._
 
-class ProcessHookInstance(implicit val ctx: RoundCtx) {
+class ProcessHookInstance(implicit val ctx: RoundContext) {
   for (h <- ctx.annotatedElements[HookInstance].asScala) {
     require(h.getModifiers.contains(Modifier.STATIC))
 
@@ -37,19 +37,17 @@ class ProcessHookInstance(implicit val ctx: RoundCtx) {
     h.getEnclosingElement match {
       case container: TypeElement =>
         val hookType = hookInfo.toElement
+        ctx.delegates += container
         ctx.addDelegateTree(hookType)
 
-        val weaverName = ClassName.get(
-          ClassName.get(container).packageName,
-          s"${hookType.getSimpleName}Weaver")
-
-        val weaverSpec = TypeSpec.classBuilder(weaverName)
+        val weaverSpec = TypeSpec
+          .classBuilder(s"${hookType.getSimpleName}AsmWeaver")
           .addModifiers(Modifier.PUBLIC)
           .build
 
-        JavaFile.builder(weaverName.packageName, weaverSpec)
+        JavaFile.builder(container.packageName, weaverSpec)
           .build
-          .writeTo(System.out)
+          //.writeTo(System.out)
     }
   }
 

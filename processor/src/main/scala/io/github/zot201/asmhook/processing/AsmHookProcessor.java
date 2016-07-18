@@ -18,10 +18,11 @@ package io.github.zot201.asmhook.processing;
 import com.google.auto.service.AutoService;
 import io.github.zot201.asmhook.annotation.*;
 import io.github.zot201.asmhook.annotation.parameter.*;
-import io.github.zot201.asmhook.processing.context.RoundCtx;
+import io.github.zot201.asmhook.processing.context.RoundContext;
 import io.github.zot201.asmhook.processing.operation.ProcessHookInstance;
 import io.github.zot201.asmhook.util.processing.ImprovedAbstractProcessor;
 import io.github.zot201.asmhook.util.processing.SupportedAnnotations;
+import scala.collection.JavaConverters;
 
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -32,10 +33,11 @@ import java.util.Set;
 @SupportedAnnotations({HookInstance.class, Name.class, ParameterTypes.class, DeclaredAt.class,
     InAdvance.class, BeforeReturn.class, BeforeInvoke.class, AfterInstanceof.class,
     Receiver.class, Arg.class, Emit.class, LoadSelf.class, LoadArg.class})
-public class HookProcessor extends ImprovedAbstractProcessor {
+public class AsmHookProcessor extends ImprovedAbstractProcessor {
 
   @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    new ProcessHookInstance(new RoundCtx(roundEnv, processingEnv));
+    new ProcessHookInstance(new RoundContext(
+        JavaConverters.asScalaSet(annotations).toSet(), roundEnv, processingEnv));
     return true;
   }
 

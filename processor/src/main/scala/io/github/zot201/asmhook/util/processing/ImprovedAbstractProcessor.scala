@@ -21,17 +21,14 @@ import javax.annotation.processing.AbstractProcessor
 import scala.collection.JavaConverters._
 
 abstract class ImprovedAbstractProcessor extends AbstractProcessor {
-  override def getSupportedAnnotationTypes: util.Set[String] = {
-    val supported = getClass.getAnnotation(classOf[SupportedAnnotations])
-
-    if (supported != null) {
-      (Set.newBuilder[String]
-        ++= supported.value.view.map(_.getName)
-        ++= super.getSupportedAnnotationTypes.asScala)
-        .result.asJava
+  override def getSupportedAnnotationTypes: util.Set[String] =
+    getClass.getAnnotation(classOf[SupportedAnnotations]) match {
+      case null =>
+        super.getSupportedAnnotationTypes
+      case supported =>
+        (Set.newBuilder[String]
+          ++= supported.value.view.map(_.getName)
+          ++= super.getSupportedAnnotationTypes.asScala)
+          .result.asJava
     }
-    else {
-      super.getSupportedAnnotationTypes
-    }
-  }
 }
