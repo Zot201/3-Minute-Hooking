@@ -25,9 +25,8 @@ class GenerateDelegates(implicit ctx: RoundContext) {
       var others = false
 
       val it = member.getAnnotationMirrors
-        .view
+        .iterator
         .map(_.getAnnotationType.toElement)
-        .toIterator
 
       @tailrec def classify(): Unit = if (it.hasNext) {
         it.next() match {
@@ -49,7 +48,7 @@ class GenerateDelegates(implicit ctx: RoundContext) {
 
         b.addMethod(member match {
           case m: ExecutableElement =>
-            require(m.getParameters.isEmpty, s"$m must have no parameters")
+            require(m.getParameters.isEmpty, s"$m must not have parameters")
 
             MethodSpec.methodBuilder("hookInstance")
               .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
@@ -75,8 +74,9 @@ class GenerateDelegates(implicit ctx: RoundContext) {
               .view
               .zipWithIndex
               .map { case (p, i) => ParameterSpec.builder(p.asType, s"_$i").build }
-              .toStream
+              .toList
             val statement = parameters
+              .view
               .map(_.name)
               .mkString("return $L.$L(", ", ", ")")
 
@@ -92,7 +92,7 @@ class GenerateDelegates(implicit ctx: RoundContext) {
             require(declaringType.toElement == threadLocalType, s"Only ThreadLocal is supported, $f")
 
             val typeParameters = declaringType.typeParameters
-            require(typeParameters.size > 0, s"$f must provide a type parameter")
+            require(typeParameters.size > 0, s"$f must have a type parameter")
 
             MethodSpec.methodBuilder(s"${f.getSimpleName}$$$$set")
               .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
