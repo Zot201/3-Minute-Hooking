@@ -45,4 +45,7 @@ class RoundContext(
 
   def annotatedElements[T <: Annotation](implicit tag: ClassTag[T]) =
     roundEnv.getElementsAnnotatedWith(tag.runtimeClass.asInstanceOf[Class[T]])
+
+  def elementOf[T](implicit tag: ClassTag[T]) =
+    processingEnv.getElementUtils.getTypeElement(tag.runtimeClass.getCanonicalName)
 }

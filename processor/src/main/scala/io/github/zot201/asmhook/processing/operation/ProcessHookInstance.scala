@@ -21,9 +21,9 @@ import com.squareup.javapoet.{JavaFile, TypeSpec}
 import io.github.zot201.asmhook.annotation.HookInstance
 import io.github.zot201.asmhook.processing.context.RoundContext
 
-class ProcessHookInstance(implicit val ctx: RoundContext) {
+class ProcessHookInstance(implicit ctx: RoundContext) {
   for (h <- ctx.annotatedElements[HookInstance]) {
-    require(h.getModifiers.contains(Modifier.STATIC))
+    require(h.getModifiers.contains(Modifier.STATIC), s"$h must be static")
 
     val hookInfo = h match {
       case _: VariableElement =>

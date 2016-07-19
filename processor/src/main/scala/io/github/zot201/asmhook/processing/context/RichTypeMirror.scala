@@ -15,10 +15,17 @@
  */
 package io.github.zot201.asmhook.processing.context
 
-import javax.lang.model.`type`.TypeMirror
+import java.util
+import javax.lang.model.`type`.{DeclaredType, TypeMirror}
 import javax.lang.model.element.TypeElement
+import javax.lang.model.util.SimpleTypeVisitor6
 
-class RichMirror(val m: TypeMirror) extends AnyVal {
+class RichTypeMirror(val m: TypeMirror) extends AnyVal {
   def toElement(implicit ctx: RoundContext) =
     ctx.processingEnv.getTypeUtils.asElement(m).asInstanceOf[TypeElement] // TODO: Check if this casting safe
+
+  def typeParameters =
+    m.accept(new SimpleTypeVisitor6[util.List[_ <: TypeMirror], Unit] {
+      override def visitDeclared(t: DeclaredType, p: Unit) = t.getTypeArguments
+    }, ())
 }

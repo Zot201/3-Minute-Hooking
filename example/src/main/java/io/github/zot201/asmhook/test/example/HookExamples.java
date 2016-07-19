@@ -28,10 +28,10 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 
-public class HookExample {
+public class HookExamples {
 
   /** Declare a static reference for hooks */
-  @HookInstance static final HookExample INSTANCE = new HookExample();
+  @HookInstance static final HookExamples INSTANCE = new HookExamples();
 
   /** Define MY_ENCH_TYPE to match ItemSword or ItemTool */
   @InAdvance(end = Condition.IF_TRUE)

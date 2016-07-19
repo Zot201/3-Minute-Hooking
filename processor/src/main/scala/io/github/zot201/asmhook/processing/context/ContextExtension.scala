@@ -5,5 +5,5 @@ import javax.lang.model.`type`.TypeMirror
 import scala.language.implicitConversions
 
 trait ContextExtension {
-  implicit def wrap(m: TypeMirror): RichMirror = new RichMirror(m)
+  implicit def wrap(m: TypeMirror): RichTypeMirror = new RichTypeMirror(m)
 }
