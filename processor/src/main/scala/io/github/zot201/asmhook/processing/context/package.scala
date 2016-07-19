@@ -1,3 +1,8 @@
 package io.github.zot201.asmhook.processing
 
-package object context extends ContextExtension
+import scala.collection.convert.{DecorateAsJava, ToScalaImplicits}
+
+package object context extends
+  ToScalaImplicits with
+  DecorateAsJava with
+  ContextExtension

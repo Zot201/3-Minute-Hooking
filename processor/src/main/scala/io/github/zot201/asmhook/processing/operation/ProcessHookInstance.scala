@@ -21,10 +21,8 @@ import com.squareup.javapoet.{JavaFile, TypeSpec}
 import io.github.zot201.asmhook.annotation.HookInstance
 import io.github.zot201.asmhook.processing.context.RoundContext
 
-import scala.collection.JavaConverters._
-
 class ProcessHookInstance(implicit val ctx: RoundContext) {
-  for (h <- ctx.annotatedElements[HookInstance].asScala) {
+  for (h <- ctx.annotatedElements[HookInstance]) {
     require(h.getModifiers.contains(Modifier.STATIC))
 
     val hookInfo = h match {

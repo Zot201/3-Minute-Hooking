@@ -5,8 +5,6 @@ import javax.lang.model.element.{ExecutableElement, Modifier}
 import com.squareup.javapoet.{JavaFile, MethodSpec, ParameterSpec, TypeSpec}
 import io.github.zot201.asmhook.processing.context.RoundContext
 
-import scala.collection.JavaConverters._
-
 class GenerateDelegates(implicit val ctx: RoundContext) {
   lazy val annotationSet = ctx.methodAnnotations
 
@@ -17,19 +15,20 @@ class GenerateDelegates(implicit val ctx: RoundContext) {
       TypeSpec.classBuilder(s"${t.getSimpleName}AsmDelegate")
     }
 
-    t.getEnclosedElements.asScala
+    t.getEnclosedElements
       .view
-      .filter(_.getAnnotationMirrors.asScala
+      .filter(_.getAnnotationMirrors
         .exists(annotationSet contains _.getAnnotationType.toElement))
       .foreach {
         case m: ExecutableElement =>
           val s = m.getSimpleName.toString
-          val parameters = m.getParameters.asScala
+          val parameters = m.getParameters
             .view
             .zipWithIndex
             .map { case (p, i) => ParameterSpec.builder(p.asType, s"_$i").build }
             .toList
           val statement = parameters
+            .view
             .map(_.name)
             .mkString("return $L.$L(", ", ", ")")
 

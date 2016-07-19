@@ -18,8 +18,6 @@ package io.github.zot201.asmhook.util.processing
 import java.util
 import javax.annotation.processing.AbstractProcessor
 
-import scala.collection.JavaConverters._
-
 abstract class ImprovedAbstractProcessor extends AbstractProcessor {
   override def getSupportedAnnotationTypes: util.Set[String] =
     getClass.getAnnotation(classOf[SupportedAnnotations]) match {
@@ -28,7 +26,7 @@ abstract class ImprovedAbstractProcessor extends AbstractProcessor {
       case supported =>
         (Set.newBuilder[String]
           ++= supported.value.view.map(_.getName)
-          ++= super.getSupportedAnnotationTypes.asScala)
+          ++= super.getSupportedAnnotationTypes)
           .result.asJava
     }
 }
