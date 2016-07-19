@@ -17,7 +17,7 @@ package io.github.zot201.asmhook.test
 
 import com.google.testing.compile.JavaFileObjects
 import io.github.zot201.asmhook.processing.AsmHookProcessor
-import io.github.zot201.asmhook.test.example.{HookExamples, MethodHookInstance}
+import io.github.zot201.asmhook.test.example.{GenericHooks, HookExamples, MethodHookInstance}
 import io.github.zot201.asmhook.test.util.Truths._
 import org.junit.Test
 
@@ -28,10 +28,20 @@ class HookTest {
   def ex[T](implicit tag: ClassTag[T]) =
     JavaFileObjects.forResource(s"${tag.runtimeClass.getName.replace('.', '/')}.java")
 
-  @Test def methodHookInstance(): Unit = {
+  lazy val methodHookInstance = Seq(ex[MethodHookInstance], ex[HookExamples])
+  val processor = new AsmHookProcessor
+
+  @Test def methodHookInstance_(): Unit = {
     assertAboutJavaSources
-      .that(Seq(ex[MethodHookInstance], ex[HookExamples]).asJava)
-      .processedWith(new AsmHookProcessor)
+      .that(methodHookInstance.asJava)
+      .processedWith(processor)
+      .compilesWithoutError()
+  }
+
+  @Test def genericHooks(): Unit = {
+    assertAboutJavaSource
+      .that(ex[GenericHooks[_]])
+      .processedWith(processor)
       .compilesWithoutError()
   }
 }
