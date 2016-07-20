@@ -21,7 +21,7 @@ import javax.lang.model.element.TypeElement
 import javax.lang.model.util.SimpleTypeVisitor6
 
 class RichTypeMirror(val m: TypeMirror) extends AnyVal {
-  def toElement(implicit ctx: RoundContext) =
+  def erasure(implicit ctx: RoundContext) =
     ctx.processingEnv.getTypeUtils.asElement(m).asInstanceOf[TypeElement] // TODO: Check if this casting safe
 
   def typeParameters =

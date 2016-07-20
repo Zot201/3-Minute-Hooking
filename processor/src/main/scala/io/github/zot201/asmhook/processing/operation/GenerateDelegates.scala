@@ -26,7 +26,7 @@ class GenerateDelegates(implicit ctx: RoundContext) {
 
       val it = member.getAnnotationMirrors
         .iterator
-        .map(_.getAnnotationType.toElement)
+        .map(_.getAnnotationType.erasure)
 
       @tailrec def classify(): Unit = if (it.hasNext) {
         it.next() match {
@@ -80,7 +80,7 @@ class GenerateDelegates(implicit ctx: RoundContext) {
               .map(_.name)
               .mkString("return $L.$L(", ", ", ")")
 
-            MethodSpec.methodBuilder(s"${m.getSimpleName}$$")
+            MethodSpec.methodBuilder(s"${m.getSimpleName}$$$$")
               .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
               .returns(m.getReturnType)
               .addParameter(t, "self")
@@ -89,12 +89,12 @@ class GenerateDelegates(implicit ctx: RoundContext) {
               .build
           case f: VariableElement =>
             val declaringType = f.asType
-            require(declaringType.toElement == threadLocalType, s"Only ThreadLocal is supported, $f")
+            require(declaringType.erasure == threadLocalType, s"Only ThreadLocal is supported, $f")
 
             val typeParameters = declaringType.typeParameters
             require(typeParameters.size > 0, s"$f must have a type parameter")
 
-            MethodSpec.methodBuilder(s"${f.getSimpleName}$$$$set")
+            MethodSpec.methodBuilder(s"${f.getSimpleName}$$set")
               .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
               .returns(TypeName.VOID)
               .addParameter(t, "self")

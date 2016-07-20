@@ -34,7 +34,7 @@ class ProcessHookInstance(implicit ctx: RoundContext) {
 
     h.getEnclosingElement match {
       case container: TypeElement =>
-        val hookType = hookInfo.toElement
+        val hookType = hookInfo.erasure
         ctx.delegates += container
         ctx.addDelegateTree(hookType)
 

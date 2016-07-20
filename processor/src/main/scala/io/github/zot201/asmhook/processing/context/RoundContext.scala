@@ -39,7 +39,7 @@ class RoundContext(
     t.getSuperclass match {
       case _: NoType =>
       case p =>
-        addDelegateTree(p.toElement)
+        addDelegateTree(p.erasure)
     }
   }
 
