@@ -79,11 +79,14 @@ class GenerateDelegates(implicit ctx: RoundContext) {
               .view
               .map(_.name)
               .mkString("return $L.$L(", ", ", ")")
+            val typeParameters = t.getTypeParameters
+              .map(TypeVariableName.get)
 
             MethodSpec.methodBuilder(s"${m.getSimpleName}$$$$")
               .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+              .addTypeVariables(typeParameters.asJava)
               .returns(m.getReturnType)
-              .addParameter(t, "self")
+              .addParameter(t.parameterize(typeParameters: _*), "self")
               .addParameters(parameters.asJava)
               .addStatement(statement, "self", m.getSimpleName)
               .build

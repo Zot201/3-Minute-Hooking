@@ -9,6 +9,7 @@ import scala.language.implicitConversions
 
 trait JavaPoetImplicits {
   implicit def toClassName(element: TypeElement): ClassName = ClassName.get(element)
+  implicit def toRichClassName(element: TypeElement): RichClassName = new RichClassName(element)
 
   implicit def toTypeName(mirror: TypeMirror): TypeName = TypeName.get(mirror)
 }
