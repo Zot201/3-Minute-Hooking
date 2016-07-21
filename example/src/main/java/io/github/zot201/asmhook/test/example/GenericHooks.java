@@ -20,4 +20,9 @@ public class GenericHooks<T extends Item> {
     return type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
   }
 
+  @InAdvance(end = Condition.IF_TRUE)
+  <U> boolean canEnchantItem(@Receiver EnumEnchantmentType type, U i) {
+    return type == MyMod.MY_ENCH_TYPE && (i instanceof ItemSword || i instanceof ItemTool);
+  }
+
 }
