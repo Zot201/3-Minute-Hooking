@@ -85,7 +85,7 @@ class GenerateDelegates(implicit ctx: RoundContext) {
             MethodSpec.methodBuilder(s"${m.getSimpleName}$$$$")
               .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
               .addTypeVariables((typeParameters
-                ++ m.getTypeParameters.view.map(TypeVariableName.get)).asJava)
+                ++ m.getTypeParameters.view.map(toTypeVariableName)).asJava)
               .returns(m.getReturnType)
               .addParameter(t.parameterize(typeParameters: _*), "self")
               .addParameters(parameters.asJava)
