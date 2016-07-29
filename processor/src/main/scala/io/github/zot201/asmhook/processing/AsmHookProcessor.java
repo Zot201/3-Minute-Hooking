@@ -32,7 +32,7 @@ import java.util.Set;
 @AutoService(Processor.class)
 @SupportedAnnotations({HookInstance.class, Name.class, ParameterTypes.class, DeclaredAt.class,
     InAdvance.class, BeforeReturn.class, BeforeInvoke.class, AfterInstanceof.class,
-    Receiver.class, Arg.class, Emit.class, LoadSelf.class, LoadArg.class})
+    Receiver.class, Arg.class, Result.class, LoadSelf.class, LoadArg.class})
 public class AsmHookProcessor extends ImprovedAbstractProcessor {
 
   @Override public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {

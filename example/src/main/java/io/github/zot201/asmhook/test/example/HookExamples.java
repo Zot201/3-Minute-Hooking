@@ -16,10 +16,10 @@
 package io.github.zot201.asmhook.test.example;
 
 import io.github.zot201.asmhook.annotation.*;
-import io.github.zot201.asmhook.annotation.parameter.Emit;
 import io.github.zot201.asmhook.annotation.parameter.LoadArg;
 import io.github.zot201.asmhook.annotation.parameter.LoadSelf;
 import io.github.zot201.asmhook.annotation.parameter.Receiver;
+import io.github.zot201.asmhook.annotation.parameter.Result;
 import io.github.zot201.asmhook.test.example.util.MyCustomArmor;
 import io.github.zot201.asmhook.test.example.util.MyMod;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -48,7 +48,7 @@ public class HookExamples {
   /** Try {@code instanceof MyCustomArmor} whenever {@code instanceof ItemArmor} gives false */
   @AfterInstanceof(ItemArmor.class)
   @DeclaredAt(EnumEnchantmentType.class)
-  boolean canEnchantItem(@Emit boolean isItemArmor, Object i) {
+  boolean canEnchantItem(@Result boolean isItemArmor, Object i) {
     return isItemArmor || i instanceof MyCustomArmor;
   }
 
